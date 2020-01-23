@@ -31,7 +31,7 @@ static uint32_t idxlim32;
 static uint32_t* rdram32;
 static uint16_t* rdram16;
 static uint8_t* rdram8;
-static uint8_t rdram_hidden[RDRAM_MAX_SIZE / 2];
+uint8_t rdram_hidden[RDRAM_MAX_SIZE / 2];
 
 static void rdram_init(void)
 {
