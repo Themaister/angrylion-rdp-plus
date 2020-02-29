@@ -4,6 +4,11 @@
 #define tc16   ((uint16_t*)state[wid].tmem)
 #define tlut   ((uint16_t*)(&state[wid].tmem[0x800]))
 
+uint8_t *get_tmem(void)
+{
+	return state[0].tmem;
+}
+
 static uint8_t replicated_rgba[32];
 
 #define GET_LOW_RGBA16_TMEM(x)  (replicated_rgba[((x) >> 1) & 0x1f])
