@@ -2178,6 +2178,11 @@ static void edgewalker_for_prims(uint32_t wid, int32_t* ewdata)
                 state[wid].span[j].rx = minxhx;
                 state[wid].span[j].validline  = !allinval && !allover && !allunder && (!state[wid].scfield || (state[wid].scfield && !(state[wid].sckeepodd ^ (j & 1)))) && (!state[wid].stride || j % state[wid].stride == state[wid].offset);
 
+                /* Workaround game bugs in validation which mistakenly render past their scanline. */
+                if (state[wid].span[j].lx >= state[wid].fb_width)
+                    state[wid].span[j].lx = state[wid].fb_width - 1;
+                if (state[wid].span[j].rx >= state[wid].fb_width)
+                    state[wid].span[j].rx = state[wid].fb_width - 1;
             }
 
 
@@ -2264,6 +2269,12 @@ static void edgewalker_for_prims(uint32_t wid, int32_t* ewdata)
                 state[wid].span[j].lx = minxmx;
                 state[wid].span[j].rx = maxxhx;
                 state[wid].span[j].validline  = !allinval && !allover && !allunder && (!state[wid].scfield || (state[wid].scfield && !(state[wid].sckeepodd ^ (j & 1)))) && (!state[wid].stride || j % state[wid].stride == state[wid].offset);
+
+                /* Workaround game bugs in validation which mistakenly render past their scanline. */
+                if (state[wid].span[j].lx >= state[wid].fb_width)
+                    state[wid].span[j].lx = state[wid].fb_width - 1;
+                if (state[wid].span[j].rx >= state[wid].fb_width)
+                    state[wid].span[j].rx = state[wid].fb_width - 1;
             }
 
         }
