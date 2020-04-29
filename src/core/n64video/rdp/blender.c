@@ -79,7 +79,7 @@ static STRICTINLINE int alpha_compare(uint32_t wid, int32_t comb_alpha)
         if (!state[wid].other_modes.dither_alpha_en)
             threshold = state[wid].blend_color.a;
         else
-            threshold = irand(&state[wid].rseed) & 0xff;
+            threshold = noise_get_blend_threshold(state[wid].noise_seed);
 
 
         if (comb_alpha >= threshold)

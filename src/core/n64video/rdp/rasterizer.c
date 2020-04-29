@@ -319,6 +319,7 @@ static void render_spans_1cycle_complete(uint32_t wid, int start, int end, int t
             sw = w >> 16;
             sz = (z >> 10) & 0x3fffff;
 
+            reseed_noise(&state[wid].noise_seed, x, i, state[wid].primitive_count);
 
             sigs.endspan = (j == length);
             sigs.preendspan = (j == (length - 1));
@@ -521,7 +522,7 @@ static void render_spans_1cycle_notexel1(uint32_t wid, int start, int end, int t
             sw = w >> 16;
             sz = (z >> 10) & 0x3fffff;
 
-
+            reseed_noise(&state[wid].noise_seed, x, i, state[wid].primitive_count);
 
             sigs.endspan = (j == length);
             sigs.preendspan = (j == (length - 1));
@@ -670,6 +671,8 @@ static void render_spans_1cycle_notex(uint32_t wid, int start, int end, int tile
             sb = b >> 14;
             sa = a >> 14;
             sz = (z >> 10) & 0x3fffff;
+
+            reseed_noise(&state[wid].noise_seed, x, i, state[wid].primitive_count);
 
             lookup_cvmask_derivatives(state[wid].cvgbuf[x], &offx, &offy, &curpixel_cvg, &curpixel_cvbit);
 
@@ -831,6 +834,7 @@ static void render_spans_2cycle_complete(uint32_t wid, int start, int end, int t
         }
 
         lodlength = length + scdiff;
+        reseed_noise(&state[wid].noise_seed, x, i, state[wid].primitive_count);
 
         for (j = 0; j <= length; j++)
         {
@@ -917,6 +921,7 @@ static void render_spans_2cycle_complete(uint32_t wid, int start, int end, int t
 
 
             x += xinc;
+            reseed_noise(&state[wid].noise_seed, x, i, state[wid].primitive_count);
 
             r += drinc;
             g += dginc;
@@ -1092,6 +1097,8 @@ static void render_spans_2cycle_notexelnext(uint32_t wid, int start, int end, in
             w += (dwinc * scdiff);
         }
 
+        reseed_noise(&state[wid].noise_seed, x, i, state[wid].primitive_count);
+
         for (j = 0; j <= length; j++)
         {
             sz = (z >> 10) & 0x3fffff;
@@ -1137,6 +1144,7 @@ static void render_spans_2cycle_notexelnext(uint32_t wid, int start, int end, in
                 state[wid].memory_color = state[wid].pre_memory_color;
 
             x += xinc;
+            reseed_noise(&state[wid].noise_seed, x, i, state[wid].primitive_count);
 
             r += drinc;
             g += dginc;
@@ -1307,6 +1315,7 @@ static void render_spans_2cycle_notexel1(uint32_t wid, int start, int end, int t
             w += (dwinc * scdiff);
         }
 
+        reseed_noise(&state[wid].noise_seed, x, i, state[wid].primitive_count);
         for (j = 0; j <= length; j++)
         {
             sz = (z >> 10) & 0x3fffff;
@@ -1351,6 +1360,7 @@ static void render_spans_2cycle_notexel1(uint32_t wid, int start, int end, int t
                 state[wid].memory_color = state[wid].pre_memory_color;
 
             x += xinc;
+            reseed_noise(&state[wid].noise_seed, x, i, state[wid].primitive_count);
 
             r += drinc;
             g += dginc;
@@ -1504,6 +1514,7 @@ static void render_spans_2cycle_notex(uint32_t wid, int start, int end, int tile
             z += (dzinc * scdiff);
         }
 
+        reseed_noise(&state[wid].noise_seed, x, i, state[wid].primitive_count);
         for (j = 0; j <= length; j++)
         {
             sz = (z >> 10) & 0x3fffff;
@@ -1539,6 +1550,7 @@ static void render_spans_2cycle_notex(uint32_t wid, int start, int end, int tile
                 state[wid].memory_color = state[wid].pre_memory_color;
 
             x += xinc;
+            reseed_noise(&state[wid].noise_seed, x, i, state[wid].primitive_count);
 
             r += drinc;
             g += dginc;
