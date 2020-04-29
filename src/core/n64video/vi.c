@@ -92,6 +92,7 @@ static int32_t hres_raw, vres_raw;
 static int32_t v_start;
 static int32_t h_start;
 static int32_t v_current_line;
+static uint32_t vi_frame_count;
 
 static void vi_init(void)
 {
@@ -136,6 +137,7 @@ static void vi_process_full_parallel(uint32_t worker_id)
     int32_t line_x = 0, next_line_x = 0, prev_line_x = 0, far_line_x = 0;
     int32_t prev_scan_x = 0, scan_x = 0, next_scan_x = 0, far_scan_x = 0;
     int32_t prev_x = 0, cur_x = 0, next_x = 0, far_x = 0;
+    uint32_t noise_seed = 0;
 
     bool cache_init = false;
 
@@ -281,7 +283,8 @@ static void vi_process_full_parallel(uint32_t worker_id)
 
             if (x >= minhpass && x < maxhpass) {
                 *pixel = color;
-                gamma_filters(pixel, ctrl.gamma_enable, ctrl.gamma_dither_enable, &rseed[worker_id]);
+                reseed_noise(&noise_seed, x, y, vi_frame_count);
+                gamma_filters(pixel, ctrl.gamma_enable, ctrl.gamma_dither_enable, noise_seed);
             } else {
                 pixel->r = pixel->g = pixel->b = 0;
             }
@@ -482,6 +485,7 @@ static void vi_process_fast_parallel(uint32_t worker_id)
     int32_t y_begin = 0;
     int32_t y_end = vres_raw;
     int32_t y_inc = 1;
+    uint32_t noise_seed;
 
     // drop every other interlaced frame to avoid "wobbly" output due to the
     // vertical offset
@@ -528,7 +532,8 @@ static void vi_process_fast_parallel(uint32_t worker_id)
                             return;
                     }
 
-                    gamma_filters(pixel, ctrl.gamma_enable, false, &rseed[worker_id]);
+                    reseed_noise(&noise_seed, x, y, vi_frame_count);
+                    gamma_filters(pixel, ctrl.gamma_enable, false, noise_seed);
                     break;
 
                 case VI_MODE_DEPTH: {
@@ -748,6 +753,7 @@ void n64video_update_screen(void)
 
     // render frame to screen or blank screen if the frame is invalid
     vdac_sync(!valid);
+    vi_frame_count++;
 }
 
 static void vi_close(void)
