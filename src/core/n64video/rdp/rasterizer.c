@@ -2317,7 +2317,7 @@ static void edgewalker_for_prims(uint32_t wid, int32_t* ewdata)
         default: msg_error("cycle_type %d", state[wid].other_modes.cycle_type); break;
     }
 
-
+    state[wid].primitive_count++;
 }
 
 static void rasterizer_init(uint32_t wid)

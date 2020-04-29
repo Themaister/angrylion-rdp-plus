@@ -233,6 +233,8 @@ struct rdp_state
     struct color nexttexel_color;
     struct color shade_color;
     int32_t noise;
+    uint32_t noise_seed;
+    uint32_t primitive_count;
     int32_t primitive_lod_frac;
 
     struct color pixel_color;
