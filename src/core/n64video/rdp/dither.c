@@ -113,7 +113,6 @@ static STRICTINLINE void rgb_dither(int rgb_dither_sel, int* r, int* g, int* b, 
 
 static STRICTINLINE void get_dither_noise(uint32_t wid, int x, int y, int* cdith, int* adith)
 {
-    reseed_noise(&state[wid].noise_seed, x, y, state[wid].primitive_count);
     if (!state[wid].other_modes.f.getditherlevel)
         state[wid].noise = noise_get_combiner(state[wid].noise_seed);
 
