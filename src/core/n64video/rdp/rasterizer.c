@@ -922,6 +922,7 @@ static void render_spans_2cycle_complete(uint32_t wid, int start, int end, int t
 
             x += xinc;
             reseed_noise(&state[wid].noise_seed, x, i, state[wid].primitive_count);
+            update_combiner_noise(wid);
 
             r += drinc;
             g += dginc;
@@ -1145,6 +1146,7 @@ static void render_spans_2cycle_notexelnext(uint32_t wid, int start, int end, in
 
             x += xinc;
             reseed_noise(&state[wid].noise_seed, x, i, state[wid].primitive_count);
+            update_combiner_noise(wid);
 
             r += drinc;
             g += dginc;
@@ -1361,6 +1363,7 @@ static void render_spans_2cycle_notexel1(uint32_t wid, int start, int end, int t
 
             x += xinc;
             reseed_noise(&state[wid].noise_seed, x, i, state[wid].primitive_count);
+            update_combiner_noise(wid);
 
             r += drinc;
             g += dginc;
@@ -1551,6 +1554,7 @@ static void render_spans_2cycle_notex(uint32_t wid, int start, int end, int tile
 
             x += xinc;
             reseed_noise(&state[wid].noise_seed, x, i, state[wid].primitive_count);
+            update_combiner_noise(wid);
 
             r += drinc;
             g += dginc;

@@ -111,10 +111,17 @@ static STRICTINLINE void rgb_dither(int rgb_dither_sel, int* r, int* g, int* b, 
     *b = *b + (ditherdiff & replacesign);
 }
 
-static STRICTINLINE void get_dither_noise(uint32_t wid, int x, int y, int* cdith, int* adith)
+/* For validation purposes, update combiner noise state separately after reseeding.
+ * Pipelined noise isn't exactly meaningful to try to emulate. */
+static STRICTINLINE void update_combiner_noise(uint32_t wid)
 {
     if (!state[wid].other_modes.f.getditherlevel)
         state[wid].noise = noise_get_combiner(state[wid].noise_seed);
+}
+
+static STRICTINLINE void get_dither_noise(uint32_t wid, int x, int y, int* cdith, int* adith)
+{
+    update_combiner_noise(wid);
 
     y >>= state[wid].scfield;
 
