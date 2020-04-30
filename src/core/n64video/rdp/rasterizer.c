@@ -769,6 +769,7 @@ static void render_spans_2cycle_complete(uint32_t wid, int start, int end, int t
     int dzpixenc = dz_compress(dzpix);
 
     int cdith = 7, adith = 0;
+    int tmp_cdith;
 
     int r, g, b, a, z, s, t, w;
     int sr, sg, sb, sa, sz, ss, st, sw;
@@ -948,6 +949,10 @@ static void render_spans_2cycle_complete(uint32_t wid, int start, int end, int t
 
 
             tmp_acalpha = acalpha;
+
+            if (state[wid].other_modes.f.getditherlevel < 2)
+                get_dither_noise(wid, x, i, &tmp_cdith, &adith);
+
             combiner_2cycle_cycle0(wid, adith, nextpixel_cvg, &acalpha);
 
             if (wen)
@@ -966,8 +971,7 @@ static void render_spans_2cycle_complete(uint32_t wid, int start, int end, int t
                 }
             }
 
-            if (state[wid].other_modes.f.getditherlevel < 2)
-                get_dither_noise(wid, x, i, &cdith, &adith);
+            cdith = tmp_cdith;
 
             curpixel_cvg = nextpixel_cvg;
 
@@ -1042,6 +1046,7 @@ static void render_spans_2cycle_notexelnext(uint32_t wid, int start, int end, in
     int dzpixenc = dz_compress(dzpix);
 
     int cdith = 7, adith = 0;
+    int tmp_cdith;
 
     int r, g, b, a, z, s, t, w;
     int sr, sg, sb, sa, sz, ss, st, sw;
@@ -1178,6 +1183,8 @@ static void render_spans_2cycle_notexelnext(uint32_t wid, int start, int end, in
             texture_pipeline_cycle(wid, &state[wid].texel1_color, &state[wid].texel0_color, sss, sst, tile2, 1);
 
             tmp_acalpha = acalpha;
+            if (state[wid].other_modes.f.getditherlevel < 2)
+                get_dither_noise(wid, x, i, &tmp_cdith, &adith);
             combiner_2cycle_cycle0(wid, adith, nextpixel_cvg, &acalpha);
 
             if (wen)
@@ -1193,8 +1200,7 @@ static void render_spans_2cycle_notexelnext(uint32_t wid, int start, int end, in
                 }
             }
 
-            if (state[wid].other_modes.f.getditherlevel < 2)
-                get_dither_noise(wid, x, i, &cdith, &adith);
+            cdith = tmp_cdith;
 
             curpixel_cvg = nextpixel_cvg;
 
@@ -1262,6 +1268,7 @@ static void render_spans_2cycle_notexel1(uint32_t wid, int start, int end, int t
     int dzpixenc = dz_compress(dzpix);
 
     int cdith = 7, adith = 0;
+    int tmp_cdith;
 
     int r, g, b, a, z, s, t, w;
     int sr, sg, sb, sa, sz, ss, st, sw;
@@ -1395,6 +1402,8 @@ static void render_spans_2cycle_notexel1(uint32_t wid, int start, int end, int t
             texture_pipeline_cycle(wid, &state[wid].texel0_color, &state[wid].texel0_color, sss, sst, tile1, 0);
 
             tmp_acalpha = acalpha;
+            if (state[wid].other_modes.f.getditherlevel < 2)
+                get_dither_noise(wid, x, i, &tmp_cdith, &adith);
             combiner_2cycle_cycle0(wid, adith, nextpixel_cvg, &acalpha);
 
             if (wen)
@@ -1410,8 +1419,7 @@ static void render_spans_2cycle_notexel1(uint32_t wid, int start, int end, int t
                 }
             }
 
-            if (state[wid].other_modes.f.getditherlevel < 2)
-                get_dither_noise(wid, x, i, &cdith, &adith);
+            cdith = tmp_cdith;
 
             curpixel_cvg = nextpixel_cvg;
 
@@ -1470,6 +1478,7 @@ static void render_spans_2cycle_notex(uint32_t wid, int start, int end, int tile
     int dzpixenc = dz_compress(dzpix);
 
     int cdith = 7, adith = 0;
+    int tmp_cdith;
 
     int r, g, b, a, z;
     int sr, sg, sb, sa, sz;
@@ -1575,6 +1584,10 @@ static void render_spans_2cycle_notex(uint32_t wid, int start, int end, int tile
             rgba_correct(wid, offx, offy, sr, sg, sb, sa, nextpixel_cvg);
 
             tmp_acalpha = acalpha;
+
+            if (state[wid].other_modes.f.getditherlevel < 2)
+                get_dither_noise(wid, x, i, &tmp_cdith, &adith);
+
             combiner_2cycle_cycle0(wid, adith, nextpixel_cvg, &acalpha);
 
             if (wen)
@@ -1590,9 +1603,7 @@ static void render_spans_2cycle_notex(uint32_t wid, int start, int end, int tile
                 }
             }
 
-            if (state[wid].other_modes.f.getditherlevel < 2)
-                get_dither_noise(wid, x, i, &cdith, &adith);
-
+            cdith = tmp_cdith;
             curpixel_cvg = nextpixel_cvg;
 
             z += dzinc;
