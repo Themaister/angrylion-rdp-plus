@@ -720,6 +720,7 @@ static void render_spans_2cycle_complete(uint32_t wid, int start, int end, int t
     uint32_t curpixel_cvg, curpixel_cvbit, curpixel_memcvg;
     uint32_t nextpixel_cvg;
     uint32_t acalpha;
+    uint32_t tmp_acalpha;
 
 
 
@@ -946,11 +947,12 @@ static void render_spans_2cycle_complete(uint32_t wid, int start, int end, int t
             state[wid].texel1_color = nexttexel1_color;
 
 
+            tmp_acalpha = acalpha;
             combiner_2cycle_cycle0(wid, adith, nextpixel_cvg, &acalpha);
 
             if (wen)
             {
-                wen &= alpha_compare(wid, acalpha);
+                wen &= alpha_compare(wid, tmp_acalpha);
 
 
 
@@ -994,7 +996,7 @@ static void render_spans_2cycle_notexelnext(uint32_t wid, int start, int end, in
     uint32_t prewrap;
     uint32_t curpixel_cvg, curpixel_cvbit, curpixel_memcvg;
     uint32_t nextpixel_cvg;
-    uint32_t acalpha;
+    uint32_t acalpha, tmp_acalpha;
 
     int tile2 = (tilenum + 1) & 7;
     int tile1 = tilenum;
@@ -1175,11 +1177,12 @@ static void render_spans_2cycle_notexelnext(uint32_t wid, int start, int end, in
             texture_pipeline_cycle(wid, &state[wid].texel0_color, &state[wid].texel0_color, sss, sst, tile1, 0);
             texture_pipeline_cycle(wid, &state[wid].texel1_color, &state[wid].texel0_color, sss, sst, tile2, 1);
 
+            tmp_acalpha = acalpha;
             combiner_2cycle_cycle0(wid, adith, nextpixel_cvg, &acalpha);
 
             if (wen)
             {
-                wen &= alpha_compare(wid, acalpha);
+                wen &= alpha_compare(wid, tmp_acalpha);
 
                 if (wen)
                 {
@@ -1214,7 +1217,7 @@ static void render_spans_2cycle_notexel1(uint32_t wid, int start, int end, int t
     uint32_t prewrap;
     uint32_t curpixel_cvg, curpixel_cvbit, curpixel_memcvg;
     uint32_t nextpixel_cvg;
-    uint32_t acalpha;
+    uint32_t acalpha, tmp_acalpha;
 
     int tile1 = tilenum;
     int prim_tile = tilenum;
@@ -1391,11 +1394,12 @@ static void render_spans_2cycle_notexel1(uint32_t wid, int start, int end, int t
 
             texture_pipeline_cycle(wid, &state[wid].texel0_color, &state[wid].texel0_color, sss, sst, tile1, 0);
 
+            tmp_acalpha = acalpha;
             combiner_2cycle_cycle0(wid, adith, nextpixel_cvg, &acalpha);
 
             if (wen)
             {
-                wen &= alpha_compare(wid, acalpha);
+                wen &= alpha_compare(wid, tmp_acalpha);
 
                 if (wen)
                 {
@@ -1430,7 +1434,7 @@ static void render_spans_2cycle_notex(uint32_t wid, int start, int end, int tile
     uint32_t prewrap;
     uint32_t curpixel_cvg, curpixel_cvbit, curpixel_memcvg;
     uint32_t nextpixel_cvg;
-    uint32_t acalpha;
+    uint32_t acalpha, tmp_acalpha;
 
     int i, j;
 
@@ -1570,11 +1574,12 @@ static void render_spans_2cycle_notex(uint32_t wid, int start, int end, int tile
 
             rgba_correct(wid, offx, offy, sr, sg, sb, sa, nextpixel_cvg);
 
+            tmp_acalpha = acalpha;
             combiner_2cycle_cycle0(wid, adith, nextpixel_cvg, &acalpha);
 
             if (wen)
             {
-                wen &= alpha_compare(wid, acalpha);
+                wen &= alpha_compare(wid, tmp_acalpha);
 
                 if (wen)
                 {
