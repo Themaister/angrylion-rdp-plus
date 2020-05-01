@@ -1873,6 +1873,8 @@ static void edgewalker_for_prims(uint32_t wid, int32_t* ewdata)
     int32_t xl = 0, xm = 0, xh = 0;
     int32_t dxldy = 0, dxhdy = 0, dxmdy = 0;
 
+    memset(&state[wid].combined_color, 0, sizeof(state[wid].combined_color));
+
     if (state[wid].other_modes.f.stalederivs)
     {
         deduce_derivatives(wid);
