@@ -908,6 +908,7 @@ static void render_spans_2cycle_complete(uint32_t wid, int start, int end, int t
             combiner_2cycle_cycle1(wid, adith, &curpixel_cvg);
 
             state[wid].fbread2_ptr(wid, curpixel, &curpixel_memcvg);
+            state[wid].memory_color = state[wid].pre_memory_color;
 
 
             wen = z_compare(wid, zbcur, sz, dzpix, dzpixenc, &blend_en, &prewrap, &curpixel_cvg, curpixel_memcvg);
@@ -1143,6 +1144,7 @@ static void render_spans_2cycle_notexelnext(uint32_t wid, int start, int end, in
             combiner_2cycle_cycle1(wid, adith, &curpixel_cvg);
 
             state[wid].fbread2_ptr(wid, curpixel, &curpixel_memcvg);
+            state[wid].memory_color = state[wid].pre_memory_color;
 
             wen = z_compare(wid, zbcur, sz, dzpix, dzpixenc, &blend_en, &prewrap, &curpixel_cvg, curpixel_memcvg);
 
@@ -1363,6 +1365,7 @@ static void render_spans_2cycle_notexel1(uint32_t wid, int start, int end, int t
             combiner_2cycle_cycle1(wid, adith, &curpixel_cvg);
 
             state[wid].fbread2_ptr(wid, curpixel, &curpixel_memcvg);
+            state[wid].memory_color = state[wid].pre_memory_color;
 
             wen = z_compare(wid, zbcur, sz, dzpix, dzpixenc, &blend_en, &prewrap, &curpixel_cvg, curpixel_memcvg);
 
@@ -1557,6 +1560,7 @@ static void render_spans_2cycle_notex(uint32_t wid, int start, int end, int tile
             combiner_2cycle_cycle1(wid, adith, &curpixel_cvg);
 
             state[wid].fbread2_ptr(wid, curpixel, &curpixel_memcvg);
+            state[wid].memory_color = state[wid].pre_memory_color;
 
             wen = z_compare(wid, zbcur, sz, dzpix, dzpixenc, &blend_en, &prewrap, &curpixel_cvg, curpixel_memcvg);
 
