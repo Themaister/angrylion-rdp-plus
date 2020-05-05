@@ -41,7 +41,7 @@ void reseed_noise(uint32_t *seed, uint32_t x, uint32_t y, uint32_t offset)
     seed_iteration(&s);
     seed_iteration(&s);
     seed_iteration(&s);
-    *seed = s.x;
+    *seed = s.x >> 16;
 }
 
 int noise_get_combiner(uint32_t seed)
@@ -56,12 +56,12 @@ int noise_get_dither_alpha(uint32_t seed)
 
 int noise_get_dither_color(uint32_t seed)
 {
-    return (seed >> 8u) & 0x1ff;
+    return seed & 0x1ff;
 }
 
 int noise_get_blend_threshold(uint32_t seed)
 {
-    return (seed >> 16u) & 0xffu;
+    return seed & 0xffu;
 }
 
 static STRICTINLINE void rgb_dither(int rgb_dither_sel, int* r, int* g, int* b, int dith)
