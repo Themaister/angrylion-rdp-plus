@@ -351,8 +351,9 @@ static STRICTINLINE void combiner_2cycle_cycle1(uint32_t wid, int adseed, uint32
     int32_t keyalpha, temp;
     struct color chromabypass;
 
+    struct color tmp_texel1 = state[wid].texel0_color;
     state[wid].texel0_color = state[wid].texel1_color;
-    state[wid].texel1_color = state[wid].nexttexel_color;
+    state[wid].texel1_color = tmp_texel1;
 
 
 
@@ -452,6 +453,8 @@ static STRICTINLINE void combiner_2cycle_cycle1(uint32_t wid, int adseed, uint32
     state[wid].blender_shade_alpha = state[wid].shade_color.a + adseed;
     if (state[wid].blender_shade_alpha & 0x100)
         state[wid].blender_shade_alpha = 0xff;
+
+    state[wid].texel1_color = state[wid].nexttexel_color;
 }
 
 static void combiner_init_lut(void)
