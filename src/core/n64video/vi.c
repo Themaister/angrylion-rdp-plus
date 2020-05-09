@@ -319,28 +319,11 @@ static void vi_process_full_parallel(uint32_t worker_id)
 static bool vi_process_full(void)
 {
     bool isblank = (ctrl.type & 2) == 0;
-    bool validinterlace = !isblank && ctrl.serrate;
 
-    if (validinterlace) {
-        if (prevserrate && emucontrolsvicurrent < 0) {
-            emucontrolsvicurrent = v_current_line != prevvicurrent;
-        }
-
-        if (emucontrolsvicurrent == 1) {
-            lowerfield = v_current_line ^ 1;
-        } else if (!emucontrolsvicurrent) {
-            if (v_start == oldvstart) {
-                lowerfield ^= true;
-            } else {
-                lowerfield = v_start < oldvstart;
-            }
-        }
-
-        prevvicurrent = v_current_line;
-        oldvstart = v_start;
-    }
-
-    prevserrate = validinterlace;
+    if (ctrl.serrate)
+        lowerfield = v_current_line == 0;
+    else
+        lowerfield = false;
 
     bool validh = hres > 0 && h_start < PRESCALE_WIDTH;
     int32_t h_end = hres + h_start; // note: the result appears to be different to VI_H_END
