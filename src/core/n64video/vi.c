@@ -152,6 +152,12 @@ static void vi_process_full_parallel(uint32_t worker_id)
         y_inc = parallel_num_workers();
     }
 
+    /* Fixup buffer overflow. */
+    if (ctrl.serrate && v_start + y_end > (PRESCALE_HEIGHT / 2))
+        y_end = PRESCALE_HEIGHT / 2 - v_start;
+    else if (!ctrl.serrate && v_start + y_end > PRESCALE_HEIGHT)
+        y_end = PRESCALE_HEIGHT - v_start;
+
     for (y = y_begin; y < y_end; y += y_inc) {
         int32_t x;
         uint32_t x_offs = x_start;
