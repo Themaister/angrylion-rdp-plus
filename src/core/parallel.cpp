@@ -106,7 +106,9 @@ private:
             m_task(worker_id);
 
             {
+#if !defined(ANDROID)
                 std::unique_lock<std::mutex> ul(m_signal_mutex);
+#endif
 
                 // mark task as done
                 m_tasks_done |= worker_mask;
