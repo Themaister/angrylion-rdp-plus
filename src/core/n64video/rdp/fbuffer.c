@@ -37,7 +37,8 @@ static void fbwrite_4(uint32_t wid, uint32_t curpixel, uint32_t r, uint32_t g, u
 static void fbwrite_8(uint32_t wid, uint32_t curpixel, uint32_t r, uint32_t g, uint32_t b, uint32_t blend_en, uint32_t curpixel_cvg, uint32_t curpixel_memcvg)
 {
     uint32_t fb = state[wid].fb_address + curpixel;
-    PAIRWRITE8(fb, r & 0xff, (r & 1) ? 3 : 0);
+    uint32_t effective_col = (fb & 1) ? g : r;
+    PAIRWRITE8(fb, effective_col & 0xff, (effective_col & 1) ? 3 : 0);
 }
 
 static void fbwrite_16(uint32_t wid, uint32_t curpixel, uint32_t r, uint32_t g, uint32_t b, uint32_t blend_en, uint32_t curpixel_cvg, uint32_t curpixel_memcvg)
